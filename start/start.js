@@ -64,6 +64,12 @@
       a.appendChild(el("span", "label", app.name));
       if (i < 9) a.appendChild(el("span", "key", "Taste " + (i + 1)));
       li.appendChild(a);
+      if (app.preview) {
+        var p = el("a", "preview", "Vorschau");
+        p.href = app.preview;
+        p.setAttribute("aria-label", app.name + ": Vorschau mit Beispieldaten, ohne Login");
+        li.appendChild(p);
+      }
       list.appendChild(li);
     });
     empty.hidden = shown > 0 || !apps.length;

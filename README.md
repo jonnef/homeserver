@@ -9,6 +9,8 @@ lauscht auf Port 80 und verteilt nach Pfad – keine Ports mehr in der Adresse:
 | `/budget/` | Budget Book (Frontend aus `/opt/budget-book/frontend`) | ja |
 | `/api/…` | Budget Book API (Spring Boot, `127.0.0.1:8080`) | ja |
 | `/vorlesungen/` | Vorlesungs-Nacharbeitung (`127.0.0.1:8000`) | ja |
+| `/vorschau/budget/` | Budget Book mit Beispieldaten (`/opt/budget-book/frontend-demo`) | keiner |
+| `/vorschau/vorlesungen/` | Vorlesungen mit Beispieldaten (`127.0.0.1:8001`, schreibgeschützt) | keiner |
 
 Alle Apps teilen sich einen Login (Caddy `basicauth`). Der Browser merkt ihn
 sich für die ganze Adresse – einmal anmelden reicht. Im Tailnet funktioniert
@@ -60,7 +62,19 @@ Unter `/sw.js` liefert Caddy einen Aufräum-Worker aus: Browser, die noch den
 alten Service Worker des Budget Books (Scope `/`) haben, ersetzen ihn damit
 beim nächsten Besuch und melden ihn ab.
 
+## Vorschau ohne Login
+
+Jede App kann eine öffentliche Vorschau mit Beispieldaten haben (`preview` in
+`start/apps.json`). Die Startseite zeigt darunter einen Link „Vorschau“, und wer
+bei einer App den Login abbricht, landet auf `start/401.html` mit einem Link
+dorthin. Die Vorschauen sehen nie echte Daten:
+
+- **Budget Book:** eigener Build (`npm run build:demo`), der alle API-Aufrufe im
+  Browser aus Beispieldaten beantwortet. `deploy/update.sh` im Service-Repo baut
+  ihn nach `/opt/budget-book/frontend-demo`.
+- **Vorlesungen:** zweite Instanz mit `DEMO_MODE=1` und eigener Datenbank,
+  schreibgeschützt, ohne API und ohne Claude (Dienst `vorlesung-vorschau`).
+
 ## Später
 
-- Vorschau der Apps mit Beispieldaten für nicht angemeldete Besucher
 - Richtige Konten statt eines gemeinsamen Basic-Auth-Logins

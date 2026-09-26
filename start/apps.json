@@ -2,6 +2,7 @@
   {
     "name": "Budgetbuch",
     "path": "/budget/",
+    "preview": "/vorschau/budget/",
     "icon": "wallet",
     "color": "#8fb3ff",
     "description": "Einnahmen, Ausgaben und Monatsübersicht"
@@ -9,6 +10,7 @@
   {
     "name": "Vorlesungen",
     "path": "/vorlesungen/",
+    "preview": "/vorschau/vorlesungen/",
     "icon": "cap",
     "color": "#f2b97c",
     "description": "Transkripte, Lernnotizen und Glossar"

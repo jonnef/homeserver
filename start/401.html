@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Anmeldung erforderlich</title>
+<link rel="stylesheet" href="/start/start.css">
+<style>
+  .box { max-width: 480px; display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; }
+  .box h1 { margin: 0; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 32px; font-weight: 600; }
+  .box p { margin: 0; color: var(--muted); line-height: 1.6; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 8px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px;
+    border-radius: 12px; font: inherit; font-weight: 500; text-decoration: none; cursor: pointer;
+  }
+  .btn.primary { background: #8fb3ff; color: #14161b; border: 0; }
+  .btn.secondary { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+  .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <main class="center">
+    <div class="box">
+      <h1>Anmeldung erforderlich</h1>
+      <p id="text">Diese App zeigt persönliche Daten und ist nur nach Anmeldung erreichbar.</p>
+      <div class="actions">
+        <a class="btn primary" id="preview" href="/" hidden>Vorschau mit Beispieldaten</a>
+        <a class="btn secondary" id="retry" href="">Erneut anmelden</a>
+        <a class="btn secondary" href="/">Zur Startseite</a>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  (function () {
+    var previews = { "/budget": ["Budgetbuch", "/vorschau/budget/"], "/vorlesungen": ["Vorlesungen", "/vorschau/vorlesungen/"] };
+    var path = location.pathname;
+    document.getElementById("retry").href = path + location.search;
+    for (var prefix in previews) {
+      if (path === prefix || path.indexOf(prefix + "/") === 0) {
+        var name = previews[prefix][0];
+        var link = document.getElementById("preview");
+        link.href = previews[prefix][1];
+        link.hidden = false;
+        document.getElementById("text").textContent =
+          name + " zeigt persönliche Daten. Ohne Anmeldung kannst du dir die App mit Beispieldaten ansehen.";
+      }
+    }
+  })();
+</script>
+</body>
+</html>

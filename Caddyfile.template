@@ -29,6 +29,22 @@
 		file_server
 	}
 
+	# ---------- Vorschau mit Beispieldaten: öffentlich, ohne echte Daten ----------
+	redir /vorschau/budget /vorschau/budget/
+	handle_path /vorschau/budget/* {
+		# Eigener Build, der nie mit der API spricht (Beispieldaten im Browser)
+		root * /opt/budget-book/frontend-demo
+		try_files {path} /index.html
+		file_server
+	}
+	redir /vorschau/vorlesungen /vorschau/vorlesungen/
+	handle_path /vorschau/vorlesungen/* {
+		# Schreibgeschützte zweite Instanz mit eigener Beispiel-Datenbank
+		reverse_proxy 127.0.0.1:8001 {
+			header_up X-Forwarded-Prefix /vorschau/vorlesungen
+		}
+	}
+
 	# ---------- Budgetbuch ----------
 	redir /budget /budget/
 	handle_path /budget/* {
@@ -57,5 +73,15 @@
 	# Alles andere: zur Startseite
 	handle {
 		redir * / 302
+	}
+
+	# Login abgebrochen: Hinweis mit Link zur Vorschau statt leerer Seite
+	handle_errors {
+		@unauthorized expression {err.status_code} == 401
+		handle @unauthorized {
+			root * /opt/homeserver/start
+			rewrite * /401.html
+			file_server
+		}
 	}
 }
