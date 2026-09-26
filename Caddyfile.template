@@ -1,0 +1,61 @@
+# Heimserver – erzeugt von install.sh aus https://github.com/jonnef/homeserver
+# Änderungen bitte dort vornehmen: install.sh überschreibt diese Datei (mit Backup).
+#
+# Erreichbar im Heimnetz über http://<Pi-IP> und im Tailnet über `tailscale serve`
+# (TLS endet dort, weitergeleitet an diesen Port).
+
+:80 {
+	encode gzip
+
+	# ---------- Apps: gemeinsamer Login (Startseite bleibt öffentlich) ----------
+	@apps path /budget /budget/* /api/* /vorlesungen /vorlesungen/* /assets/* /manifest.webmanifest /apple-touch-icon.png /icon-192.png /icon-512.png /icon-maskable-512.png
+	basicauth @apps {
+{{BASIC_AUTH}}
+	}
+
+	# ---------- Startseite ----------
+	handle / {
+		root * /opt/homeserver/start
+		file_server
+	}
+	handle /start/* {
+		root * /opt/homeserver
+		file_server
+	}
+	# Ersetzt den früheren Service Worker des Budgetbuchs (Scope "/") durch einen Aufräum-Worker
+	handle /sw.js {
+		root * /opt/homeserver/start
+		rewrite * /sw-reset.js
+		file_server
+	}
+
+	# ---------- Budgetbuch ----------
+	redir /budget /budget/
+	handle_path /budget/* {
+		root * /opt/budget-book/frontend
+		try_files {path} /index.html
+		file_server
+	}
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8080
+	}
+	# Übergang: Frontend-Builds von vor dem Umzug laden ihre Dateien noch ab /
+	@budget_legacy path /assets/* /manifest.webmanifest /apple-touch-icon.png /icon-192.png /icon-512.png /icon-maskable-512.png
+	handle @budget_legacy {
+		root * /opt/budget-book/frontend
+		file_server
+	}
+
+	# ---------- Vorlesungen ----------
+	redir /vorlesungen /vorlesungen/
+	handle_path /vorlesungen/* {
+		reverse_proxy 127.0.0.1:8000 {
+			header_up X-Forwarded-Prefix /vorlesungen
+		}
+	}
+
+	# Alles andere: zur Startseite
+	handle {
+		redir * / 302
+	}
+}

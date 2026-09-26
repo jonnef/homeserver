@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Budgetbuch",
+    "path": "/budget/",
+    "icon": "wallet",
+    "color": "#8fb3ff",
+    "description": "Einnahmen, Ausgaben und Monatsübersicht"
+  },
+  {
+    "name": "Vorlesungen",
+    "path": "/vorlesungen/",
+    "icon": "cap",
+    "color": "#f2b97c",
+    "description": "Transkripte, Lernnotizen und Glossar"
+  }
+]

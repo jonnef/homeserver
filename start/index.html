@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15171c">
+<title>Heimserver</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%2315171c%22/><rect x=%2224%22 y=%2224%22 width=%2222%22 height=%2222%22 rx=%226%22 fill=%22%238fb3ff%22/><rect x=%2254%22 y=%2224%22 width=%2222%22 height=%2222%22 rx=%226%22 fill=%22%23f2b97c%22/><rect x=%2224%22 y=%2254%22 width=%2222%22 height=%2222%22 rx=%226%22 fill=%22%23f2b97c%22/><rect x=%2254%22 y=%2254%22 width=%2222%22 height=%2222%22 rx=%226%22 fill=%22%238fb3ff%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="/start/start.css">
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <span class="brand">HEIMSERVER</span>
+    <button type="button" class="account" disabled aria-label="Konto – kommt bald" title="Konto – kommt bald">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </button>
+  </header>
+
+  <main class="center">
+    <div class="clock">
+      <div class="time" id="time">--:--</div>
+      <div class="date" id="date"></div>
+    </div>
+
+    <label class="search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <span class="visually-hidden">App suchen</span>
+      <input type="search" id="q" placeholder="App suchen oder Taste 1–9 drücken" autocomplete="off" spellcheck="false">
+    </label>
+
+    <nav aria-label="Apps">
+      <ul class="apps" id="apps">
+        <noscript>
+          <li><a class="app" href="/budget/"><span class="label">Budgetbuch</span></a></li>
+          <li><a class="app" href="/vorlesungen/"><span class="label">Vorlesungen</span></a></li>
+        </noscript>
+      </ul>
+    </nav>
+    <p class="empty" id="empty" hidden>Keine App gefunden.</p>
+  </main>
+
+  <footer class="host" id="host"></footer>
+</div>
+<script src="/start/start.js"></script>
+</body>
+</html>
