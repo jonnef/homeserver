@@ -15,9 +15,16 @@
 <div class="page">
   <header class="top">
     <span class="brand">HEIMSERVER</span>
-    <button type="button" class="account" disabled aria-label="Konto – kommt bald" title="Konto – kommt bald">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
-    </button>
+    <div class="account-wrap">
+      <button type="button" class="account" id="account" aria-label="Anmelden" aria-haspopup="true" aria-expanded="false">
+        <svg id="account-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        <span id="account-initial" hidden></span>
+      </button>
+      <div class="menu" id="menu" hidden>
+        <p class="menu-user" id="menu-user"></p>
+        <button type="button" class="menu-item" id="logout">Abmelden</button>
+      </div>
+    </div>
   </header>
 
   <main class="center">
@@ -45,6 +52,25 @@
 
   <footer class="host" id="host"></footer>
 </div>
+
+<dialog id="login" aria-labelledby="login-title">
+  <form id="login-form" method="dialog">
+    <h2 id="login-title">Anmelden</h2>
+    <p class="login-hint" id="login-hint" hidden></p>
+    <label>Benutzername
+      <input type="text" id="login-user" name="user" autocomplete="username" autocapitalize="off" spellcheck="false" required>
+    </label>
+    <label>Passwort
+      <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+    </label>
+    <p class="login-error" id="login-error" role="alert" hidden></p>
+    <div class="login-actions">
+      <button type="submit" class="btn primary" id="login-submit">Anmelden</button>
+      <button type="button" class="btn secondary" id="login-cancel">Abbrechen</button>
+    </div>
+    <a class="login-preview" id="login-preview" href="/" hidden>Stattdessen Vorschau mit Beispieldaten ansehen</a>
+  </form>
+</dialog>
 <script src="/start/start.js"></script>
 </body>
 </html>
